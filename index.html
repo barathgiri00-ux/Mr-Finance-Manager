@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mr Finance Manager</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <button id="menuBtn" class="icon-btn" aria-label="Open menu">☰</button>
+      <div class="brand">
+        <div class="brand-icon">↗</div>
+        <div>
+          <h2>Mr Finance Manager</h2>
+          <small>Plan · Save · Grow</small>
+        </div>
+      </div>
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+    </header>
+
+    <div id="overlay" class="overlay"></div>
+    <aside id="sidebar" class="sidebar">
+      <h3>Menu</h3>
+      <button class="nav-link active" data-page="home">⌂ Dashboard</button>
+      <button class="nav-link" data-page="transactions">⇄ Transactions</button>
+      <button class="nav-link" data-page="budgets">◷ Budgets</button>
+      <button class="nav-link" data-page="goals">◎ Savings Goals</button>
+      <button class="nav-link" data-page="accounts">▣ Accounts & Wallets</button>
+      <button class="nav-link" data-page="reports">▥ Reports</button>
+      <button class="nav-link" data-page="settings">⚙ Settings</button>
+    </aside>
+
+    <main>
+      <section id="home" class="page active">
+        <div class="welcome">
+          <p>WELCOME BACK 👋</p>
+          <h1>Your money, <span>your future.</span></h1>
+          <small>Here's your financial overview.</small>
+        </div>
+
+        <div class="balance-card">
+          <div>
+            <p>Total Balance</p>
+            <h1 id="totalBalance">₹0.00</h1>
+            <small>Keep building your future ✨</small>
+          </div>
+          <div class="wallet-art">₹</div>
+        </div>
+
+        <div class="quick-grid">
+          <button class="quick-card" data-page="home" data-action="add">
+            <span class="quick-icon purple">＋</span>
+            <b>Add Transaction</b><small>Track your money</small>
+          </button>
+          <button class="quick-card" data-page="accounts">
+            <span class="quick-icon teal">▣</span>
+            <b>Add an Account</b><small>Manage accounts</small>
+          </button>
+          <button class="quick-card" data-page="accounts">
+            <span class="quick-icon orange">◈</span>
+            <b>Accounts & Wallets</b><small>View your wallets</small>
+          </button>
+          <button class="quick-card" data-page="reports">
+            <span class="quick-icon pink">▥</span>
+            <b>View Reports</b><small>Understand spending</small>
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Income</span><h2 id="incomeTotal">₹0.00</h2>
+            <small class="positive">Money received</small>
+          </article>
+          <article class="stat-card">
+            <span>Expenses</span><h2 id="expenseTotal">₹0.00</h2>
+            <small class="negative">Money spent</small>
+          </article>
+        </div>
+
+        <article class="panel chart-panel">
+          <div class="panel-heading">
+            <div><h3>Money Overview</h3><small>Income vs expenses</small></div>
+          </div>
+          <div class="chart-wrap"><canvas id="moneyChart"></canvas></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <h3>Recent Transactions</h3>
+            <button class="text-btn" data-page="transactions">View all →</button>
+          </div>
+          <div id="recentList" class="transaction-list">
+            <p class="empty">Your transactions will appear here.</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="transactions" class="page">
+        <div class="page-heading"><p>YOUR ACTIVITY</p><h1>Transactions</h1></div>
+        <article class="panel">
+          <h3>Add Transaction</h3>
+          <form id="transactionForm">
+            <div class="type-switch">
+              <label><input type="radio" name="type" value="expense" checked> Expense</label>
+              <label><input type="radio" name="type" value="income"> Income</label>
+            </div>
+            <label>Amount (₹)<input id="amount" type="number" min="0.01" step="0.01" placeholder="Enter amount" required></label>
+            <label>Category
+              <select id="category" required>
+                <option value="Food">Food & Dining</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Transport">Transport</option>
+                <option value="Bills">Bills</option>
+                <option value="Salary">Salary</option>
+                <option value="Education">Education</option>
+                <option value="Other">Other</option>
+              </select>
+            </label>
+            <label>Date<input id="date" type="date" required></label>
+            <label>Note<input id="note" type="text" placeholder="What was it for?"></label>
+            <button class="primary-btn" type="submit">＋ Save Transaction</button>
+          </form>
+        </article>
+        <article class="panel">
+          <div class="panel-heading"><h3>All Transactions</h3></div>
+          <input id="search" class="search" placeholder="Search transactions...">
+          <div id="transactionList" class="transaction-list"></div>
+        </article>
+      </section>
+
+      <section id="accounts" class="page">
+        <div class="page-heading"><p>YOUR MONEY</p><h1>Accounts & Wallets</h1></div>
+        <article class="panel">
+          <h3>Add an Account</h3>
+          <form id="accountForm">
+            <label>Account name<input id="accountName" placeholder="e.g. Bank account" required></label>
+            <label>Account type
+              <select id="accountType"><option>Bank</option><option>UPI Wallet</option><option>Cash</option><option>Savings</option></select>
+            </label>
+            <label>Opening balance (₹)<input id="accountBalance" type="number" min="0" step="0.01" value="0" required></label>
+            <button class="primary-btn">＋ Add Account</button>
+          </form>
+        </article>
+        <div id="accountList" class="account-grid"></div>
+      </section>
+
+      <section id="budgets" class="page">
+        <div class="page-heading"><p>SPENDING PLAN</p><h1>Budgets</h1></div>
+        <article class="panel">
+          <h3>Monthly Budget</h3>
+          <form id="budgetForm">
+            <label>Budget limit (₹)<input id="budgetLimit" type="number" min="1" placeholder="Enter monthly limit" required></label>
+            <button class="primary-btn">Save Budget</button>
+          </form>
+          <div id="budgetSummary"></div>
+        </article>
+      </section>
+
+      <section id="goals" class="page">
+        <div class="page-heading"><p>YOUR NEXT MILESTONE</p><h1>Savings Goals</h1></div>
+        <article class="panel">
+          <h3>Create a Goal</h3>
+          <form id="goalForm">
+            <label>Goal name<input id="goalName" placeholder="e.g. New laptop" required></label>
+            <label>Target amount (₹)<input id="goalTarget" type="number" min="1" required></label>
+            <label>Already saved (₹)<input id="goalSaved" type="number" min="0" value="0" required></label>
+            <button class="primary-btn">＋ Create Goal</button>
+          </form>
+        </article>
+        <div id="goalList" class="account-grid"></div>
+      </section>
+
+      <section id="reports" class="page">
+        <div class="page-heading"><p>YOUR MONEY, CLEARLY</p><h1>Reports</h1></div>
+        <article class="panel"><h3>Spending Breakdown</h3><div class="chart-wrap"><canvas id="categoryChart"></canvas></div></article>
+      </section>
+
+      <section id="settings" class="page">
+        <div class="page-heading"><p>MAKE IT YOURS</p><h1>Settings</h1></div>
+        <article class="panel">
+          <h3>Appearance</h3>
+          <p>Switch between light and dark mode.</p>
+          <button class="primary-btn" id="settingsThemeBtn">Toggle Theme</button>
+        </article>
+      </section>
+    </main>
+
+    <nav class="bottom-nav">
+      <button class="bottom-link active" data-page="home"><span>⌂</span>Home</button>
+      <button class="bottom-link" data-page="transactions"><span>⇄</span>Activity</button>
+      <button class="bottom-add" data-page="transactions" data-action="add">＋</button>
+      <button class="bottom-link" data-page="accounts"><span>▣</span>Accounts</button>
+      <button class="bottom-link" data-page="reports"><span>◈</span>Reports</button>
+    </nav>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
